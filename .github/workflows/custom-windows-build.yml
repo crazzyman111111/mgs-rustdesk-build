@@ -225,6 +225,9 @@ jobs:
           path: rustdesk
 
       - name: Build self-extracted executable (portable exe)
+        # 便携自解压体非交付物（我们发 MSI），该步依赖 libs/portable 子工程，
+        # 在无 git 历史的镜像仓库里 cargo build 会失败，故不阻塞后续 MSI 打包。
+        continue-on-error: true
         shell: bash
         run: |
           sed -i '/dpiAware/d' res/manifest.xml
